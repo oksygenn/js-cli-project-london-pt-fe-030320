@@ -1,22 +1,121 @@
 {
-  "books": [
+  "movies": [
     {
-      "reviews": [
-        { "content": "i liked it", "rating": 4 },
-        { "rating": "3", "content": "great" },
-        { "rating": "1", "content": "hated it" },
-        { "rating": "10", "content": "srofgu" }
-      ],
       "id": 1,
-      "title": "Good Book about Javascript"
+      "title": "Pulp Fiction",
+      "year": 1994,
+      "genres": ["Crime", "Drama"],
+      "directors": ["Quentin Tarantino"],
+      "majorCast": ["John Travolta", "Uma Thurman", "Samuel L. Jackson"],
+      "reviews": [
+        { "rating": 8.9, "text": "Amazing review on IMDb" },
+        { "rating": 8, "text": "love it!" }
+      ]
     },
     {
-      "title": "Book about Ruby",
-      "reviews": [{ "rating": "3", "content": "hello" }],
-      "id": 2
+      "id": 2,
+      "title": "The Thing",
+      "year": 1982,
+      "genres": ["Horror", "Mystery", "Sci-Fi"],
+      "directors": ["John Carpenter"],
+      "majorCast": ["Kurt Russell", "Wilford Brimley", "Keith David "],
+      "reviews": [
+        { "rating": 8.1, "text": "Very super scary movie" },
+        { "rating": 5, "text": "not so scary for me" },
+        { "rating": 7, "text": "" }
+      ]
     },
-    { "title": "Book about Ruby", "reviews": [], "id": 4 },
-    { "title": "Book about Ruby", "reviews": [], "id": 5 },
-    { "title": "Book about Ruby", "reviews": [], "id": 6 }
+    {
+      "id": 3,
+      "title": "One Day",
+      "year": 2011,
+      "genres": ["Romance", "Drama"],
+      "directors": ["Lone Scherfig"],
+      "majorCast": ["Anne Hathaway", "Jim Sturgess", "APatricia Clarkson"],
+      "reviews": [
+        { "rating": 7, "text": "Good romantic movie" },
+        { "rating": 4, "text": "4d" },
+        { "rating": 6, "text": "great1" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "The Gentlemen",
+      "year": 2019,
+      "genres": ["Action", "Comedy", "Crime"],
+      "directors": ["Guy Ritchie"],
+      "majorCast": [
+        "Matthew McConaughey",
+        "Charlie Hunnam",
+        "Michelle Dockery"
+      ],
+      "reviews": [
+        {
+          "rating": 8,
+          "text": "You're gonna want to watch it again and again!"
+        },
+        { "rating": 8, "text": "ok" },
+        { "rating": 6, "text": "okok" },
+        { "rating": 7, "text": "amazing" },
+        { "rating": 6, "text": "ok" },
+        { "rating": 7, "text": "cool" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "American Psycho",
+      "year": 2000,
+      "genres": ["Comedy", "Crime", "Drama"],
+      "directors": ["Mary Harron"],
+      "majorCast": ["Christian Bale", "Justin Theroux", "Josh Lucas"],
+      "reviews": [{ "rating": 7.6, "text": "Great movie!" }]
+    },
+    {
+      "id": 6,
+      "title": "Breakfast at Tiffany's",
+      "year": 1961,
+      "genres": ["Comedy", "Drama", "Romance"],
+      "directors": ["Blake Edwards"],
+      "majorCast": ["Audrey Hepburn", "George Peppard", "Patricia Neal"],
+      "reviews": [
+        { "rating": 7.7, "text": "My favorite romantic movie" },
+        { "rating": 8, "text": "love it" }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "The Nightmare Before Christmas",
+      "year": 1993,
+      "genres": ["Animation", "Family", "Fantasy"],
+      "directors": ["Henry Selick"],
+      "majorCast": ["Danny Elfman", "Chris Sarandon", "Catherine O'Hara"],
+      "reviews": [
+        { "rating": 8, "text": "Super cool" },
+        { "rating": 7, "text": "ok" },
+        { "rating": 7, "text": "great movie" }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "The Matrix",
+      "year": 1999,
+      "genres": [" Action", "Sci-Fi"],
+      "directors": ["Lana Wachowski", "Lilly Wachowski"],
+      "majorCast": ["Keanu Reeves", "Carrie-Anne Moss", "Laurence Fishburne"],
+      "reviews": [{ "rating": 8.7, "text": "Wow so cool" }]
+    },
+    {
+      "id": 9,
+      "title": "The Hateful Eight",
+      "year": 2015,
+      "genres": ["Crime", "Drama", "Mystery"],
+      "directors": ["Quentin Tarantino"],
+      "majorCast": [
+        "Samuel L. Jackson",
+        "Kurt Russell",
+        "Jennifer Jason Leigh"
+      ],
+      "reviews": [{ "rating": 7.8, "text": "Another great movie" }]
+    }
   ]
 }

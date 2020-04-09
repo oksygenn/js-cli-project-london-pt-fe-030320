@@ -1,109 +1,122 @@
 const API = require("./lib/API");
 const readlineSync = require("readline-sync");
+const chalk = require("chalk");
 
-function calculateAverageRating(book) {
-  let total = 0;
-  for (const review of book.reviews) {
-    total += parseInt(review.rating);
-  }
-  return total / book.reviews.length;
-}
+const mainMenu = () => {
+  console.log("--------------------");
+  console.log(chalk.blue.bold("--------IMDb--------"));
+  console.log("--------------------");
 
-function displayBooksSummary(books) {
-  for (const book of books) {
-    // if ths book has some reviews
-    if (book.reviews.length > 0) {
-      console.log(
-        `--- ${book.id}: ${book.title}, rating: ${calculateAverageRating(book)}`
-      );
-    } else {
-      console.log(`--- ${book.id}: ${book.title}, no reviews yet!`);
-    }
-  }
-}
-
-function displayBookDetails(book) {
-  console.log(`-- ${book.title} --`);
-  for (const review of book.reviews) {
-    console.log(`${review.content} - Rating: ${review.rating}`);
-  }
-}
-
-function chooseABook(books) {
-  // display each ID and title
-  for (const book of books) {
-    console.log(`--- ${book.id}: ${book.title}`);
-  }
-
-  // user inputs an ID number
-  const bookChoice = readlineSync.question(
-    "Which number book would you like to review? "
+  const answer = readlineSync.keyInSelect(
+    ["Movie list", "Leave review"],
+    chalk.greenBright("Please choose your option "),
+    { cancel: "Exit" }
   );
-  const book = API.read("books", bookChoice);
-
-  // if the API can't find that book
-  // run chooseABook again
-  if (book !== undefined) {
-    return book;
-  } else {
-    console.log("Ooops we can't find that book!");
-    return chooseABook(books);
+  switch (answer) {
+    case 0:
+      movieList();
+      promptToMainMenu();
+      mainMenu();
+      break;
+    case 1:
+      leaveReview();
+      promptToMainMenu();
+      mainMenu();
+      break;
+    default:
+      return;
   }
-}
+};
 
-function mainMenu() {
-  console.log("----------------");
-  console.log("---- AMAZON ----");
-  console.log("----------------");
-  console.log("1. View our books");
-  console.log("2. Leave a review");
-  console.log("----------------");
+const chooseMovie = (question) => {
+  const movies = API.read("movies");
+  const movieTitles = movies.map((movie) => {
+    return movie.title;
+  });
 
-  const choice = readlineSync.question("Please choose an option ");
+  const index = readlineSync.keyInSelect(
+    movieTitles,
+    chalk.greenBright(question),
+    { cancel: "Go back" }
+  );
+  if (index === -1) {
+    return undefined;
+  }
+  return movies[index];
+};
 
-  if (choice === "1") {
-    console.log("-----------------");
-    console.log("- ALL OUR BOOKS -");
-    console.log("-----------------");
+const movieList = () => {
+  const movie = chooseMovie("Please choose a movie ");
+  if (movie === undefined) {
+    return;
+  }
 
-    // get all books
-    const books = API.read("books");
-    displayBooksSummary(books);
+  console.log(`
+  ------------------------
+  Movie: "${movie.title}"
+  Year: ${movie.year}
+  Genres: ${movie.genres.join(", ")}
+  Directors: ${movie.directors.join(", ")}
+  Major cast: ${movie.majorCast.join(", ")}
+  Reviews:`);
 
-    // return to main menu
-    mainMenu();
-  } else if (choice === "2") {
-    console.log("-----------------");
-    console.log("- CHOOSE A BOOK -");
-    console.log("-----------------");
-
-    const books = API.read("books");
-    const book = chooseABook(books);
-    displayBookDetails(book);
-
-    // Input review details
-    const rating = readlineSync.question("What is your rating? ");
-    const content = readlineSync.question("Please write your review ");
-
-    // add the new review to the book reviews
-    book.reviews.push({
-      rating: rating,
-      content: content
+  if (movie.reviews.length === 0) {
+    console.log("No reviews yet...");
+  } else {
+    movie.reviews.forEach((review) => {
+      console.log(chalk.magentaBright("-", review.text));
     });
 
-    // update the book in the API
-    API.update("books", book);
+    let allRatings = 0;
+    movie.reviews.forEach((review) => {
+      allRatings += review.rating;
+    });
+    const averageRating = allRatings / movie.reviews.length;
 
-    console.log("----------------------------");
-    console.log("Thanks for leaving a review!");
-    console.log("----------------------------");
-
-    // return to main manu
-    mainMenu();
-  } else {
-    console.log("Sorry we didn't recognise that choice!");
-    mainMenu();
+    console.log(`  Average rating: ${averageRating}/10`);
   }
-}
+};
+
+const leaveReview = () => {
+  let movie = chooseMovie("Which movie mould you like to review? ");
+  if (movie === undefined) {
+    return;
+  }
+
+  const prompt = chalk.yellow(
+    `Please write your review for movie "${movie.title}": `
+  );
+  const review = readlineSync.question(prompt, {
+    limit: (string) => {
+      return string !== "";
+    },
+  });
+
+  const rating = readlineSync.question("What is your rating from 1 to 10: ", {
+    limit: (number) => {
+      return number >= 1 && number <= 10;
+    },
+  });
+
+  const newReview = {
+    rating: parseInt(rating),
+    text: review,
+  };
+  movie.reviews.push(newReview);
+
+  API.update("movies", movie);
+
+  console.log(chalk.magentaBright("Thank you for the review! "));
+};
+
+const promptToMainMenu = () => {
+  readlineSync.question(
+    chalk.cyanBright("To return to main menu press enter "),
+    {
+      hideEchoBack: true,
+      mask: "",
+    }
+  );
+};
 
 mainMenu();
